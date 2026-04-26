@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unlock Pro — Dasecure Garmin Apps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0c0f14;
+    --surface: #141920;
+    --surface2: #1c2330;
+    --border: rgba(255,255,255,0.07);
+    --text: #f0f2f5;
+    --muted: #7a8496;
+    --z1: #3ecfa0;
+    --z2: #4da6f0;
+    --z3: #9b8ef5;
+    --z4: #f5a623;
+    --z5: #f25c5c;
+    --radius: 12px;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 680px; margin: 0 auto; }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    transition: color 0.15s;
+  }
+  .back-link:hover { color: var(--z2); }
+  header { margin-bottom: 2.5rem; }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .brand-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--z2); }
+  h1 { font-size: clamp(28px, 5vw, 42px); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
+  h1 span { color: var(--z2); }
+  .subtitle { margin-top: 0.6rem; font-size: 15px; color: var(--muted); font-weight: 400; }
+  h2 { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; margin: 2.5rem 0 1rem; }
+  .product {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .product-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--z2);
+    background: rgba(77,166,240,0.12);
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 0.75rem;
+  }
+  .product h3 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 0.4rem; }
+  .product .desc { font-size: 14px; color: var(--muted); line-height: 1.55; margin-bottom: 1.1rem; }
+  .price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 1.1rem; }
+  .price { font-family: 'DM Mono', monospace; font-size: 32px; font-weight: 500; color: var(--text); }
+  .price-sub { font-size: 11px; color: var(--muted); }
+  .pay-container { margin-bottom: 0.75rem; min-height: 50px; }
+  .note { font-size: 11px; color: var(--muted); text-align: center; }
+
+  details {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 0.6rem;
+    overflow: hidden;
+  }
+  details[open] { background: var(--surface2); }
+  summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 1rem 1.25rem;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text);
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after {
+    content: '+';
+    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    color: var(--muted);
+    transition: transform 0.2s;
+  }
+  details[open] summary::after { content: '−'; }
+  .details-body { padding: 0 1.25rem 1.25rem; font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .details-body ol { padding-left: 1.2rem; margin-top: 0.5rem; }
+  .details-body ol li { margin-bottom: 0.5rem; }
+  .details-body code { font-family: 'DM Mono', monospace; background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; font-size: 12px; color: var(--text); }
+  .details-body strong { color: var(--text); font-weight: 600; }
+  .details-body a { color: var(--z2); text-decoration: none; }
+  .details-body a:hover { text-decoration: underline; }
+
+  footer { margin-top: 3rem; text-align: center; font-size: 11px; color: var(--muted); opacity: 0.6; }
+  footer a { color: inherit; }
+  @media (max-width: 480px) {
+    .price { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="index.html" class="back-link">← Back to Karvonen Calculator</a>
+
+  <header>
+    <div class="brand"><div class="brand-dot"></div>Dasecure · Garmin Apps</div>
+    <h1>Unlock <span>Pro</span></h1>
+    <p class="subtitle">One-time payment &mdash; lifetime unlock, no subscription</p>
+  </header>
+
+  <section class="product">
+    <div class="product-tag">Interval Timer</div>
+    <h3>DaIntervalPro</h3>
+    <p class="desc">Advanced HR zones, custom intervals, and full workout analytics on your Garmin.</p>
+    <div class="price-row">
+      <span class="price">$4.99</span>
+      <span class="price-sub">One-time — all future updates included</span>
+    </div>
+    <div class="pay-container" id="paypal-container-6YUFX4TKYXRLE"></div>
+    <div class="note">Your unlock code is emailed after payment</div>
+  </section>
+
+  <section class="product">
+    <div class="product-tag">Fasting Tracker</div>
+    <h3>FastFlow</h3>
+    <p class="desc">Track fasting windows, metabolic zones, and biometrics directly on your wrist.</p>
+    <div class="price-row">
+      <span class="price">$4.99</span>
+      <span class="price-sub">One-time — all future updates included</span>
+    </div>
+    <div class="pay-container" id="paypal-container-E4U777FFR435U"></div>
+    <div class="note">Your unlock code is emailed after payment</div>
+  </section>
+
+  <h2>How to unlock your app</h2>
+
+  <details>
+    <summary>⏱ DaIntervalPro — step by step</summary>
+    <div class="details-body">
+      <ol>
+        <li>Open <strong>DaIntervalPro</strong> on your Garmin watch and press <code>START</code> to open the main menu.</li>
+        <li>Scroll down and select <strong>Settings</strong>.</li>
+        <li>Scroll to the bottom and tap <strong>Enter Pro Key</strong>.</li>
+        <li>You will see 6 digit boxes. Use <code>UP</code> / <code>DOWN</code> to change each digit. Press <code>START</code> to advance to the next digit.</li>
+        <li>After entering all 6 digits, press <code>START</code> on the last digit to submit. Your watch will vibrate twice and play a success tone — Pro is now unlocked. 🎉</li>
+        <li><strong>Note:</strong> your watch must have an active Bluetooth / Wi-Fi connection for the code to validate. If you see “Network error”, open the Garmin Connect app and try again.</li>
+      </ol>
+    </div>
+  </details>
+
+  <details>
+    <summary>⚡ FastFlow — step by step</summary>
+    <div class="details-body">
+      <ol>
+        <li>Open <strong>FastFlow</strong> on your Garmin watch and long-press <code>UP</code> to open the app menu.</li>
+        <li>Select <strong>Settings</strong> then scroll down to <strong>Unlock Pro</strong> and tap it.</li>
+        <li>You will see 6 digit boxes. Use <code>UP</code> / <code>DOWN</code> to change each digit. Press <code>START</code> to advance to the next digit.</li>
+        <li>After the 6th digit, press <code>START</code> to submit. Your watch will vibrate twice and play a success tone. The main screen will update to show Pro status. 🎉</li>
+        <li><strong>Note:</strong> ensure Bluetooth is active and Garmin Connect is running on your phone before entering the code. If validation fails, check your connection and try again.</li>
+      </ol>
+    </div>
+  </details>
+
+  <h2>Common questions</h2>
+
+  <details>
+    <summary>How long until I receive my code?</summary>
+    <div class="details-body">Codes are emailed to your PayPal address within a few minutes of payment confirmation.</div>
+  </details>
+
+  <details>
+    <summary>Can I use the code on multiple watches?</summary>
+    <div class="details-body">Each code is single-use and locks to the first device that redeems it. Contact <a href="mailto:support@dasecure.com">support@dasecure.com</a> if you upgrade your watch.</div>
+  </details>
+
+  <details>
+    <summary>I entered the code correctly but got “Invalid code”</summary>
+    <div class="details-body">Double-check each digit and ensure there are no leading zeros missed. If the issue persists, email <a href="mailto:support@dasecure.com">support@dasecure.com</a> with your PayPal receipt.</div>
+  </details>
+
+  <details>
+    <summary>I see “Network error” on my watch</summary>
+    <div class="details-body">Open Garmin Connect on your phone, wait for it to sync, then try entering the code again. The watch needs a live data connection to validate.</div>
+  </details>
+
+  <footer>Built by <a href="https://dasecure.com">dasecure.com</a> &middot; Support: <a href="mailto:support@dasecure.com">support@dasecure.com</a> &middot; <a href="https://github.com/dasecure/zone2">GitHub</a></footer>
+</div>
+
+<script src="https://www.paypal.com/sdk/js?client-id=BAAtDFHRCUtmBpY1kcasG_3C06romaKxmLjAowQytBT4nx1dNc9SvE44bf6i9GtKhETnng-DcNo2pQ1X78&components=hosted-buttons&enable-funding=venmo&currency=USD"></script>
+<script>
+  paypal.HostedButtons({ hostedButtonId: "6YUFX4TKYXRLE" })
+        .render("#paypal-container-6YUFX4TKYXRLE");
+  paypal.HostedButtons({ hostedButtonId: "E4U777FFR435U" })
+        .render("#paypal-container-E4U777FFR435U");
+</script>
+</body>
+</html>

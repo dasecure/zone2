@@ -76,6 +76,27 @@
   .compare-row .label { color: var(--muted); }
   .compare-row .val { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500; }
   .badge { display: inline-block; background: rgba(77,166,240,0.15); color: var(--z2); font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; font-family: 'DM Mono', monospace; }
+
+  .cta-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.25rem;
+    margin-top: 1.25rem;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .cta-card:hover { border-color: var(--z2); background: var(--surface2); }
+  .cta-content { display: flex; flex-direction: column; gap: 4px; }
+  .cta-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--z2); }
+  .cta-title { font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: -0.005em; }
+  .cta-sub { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; }
+  .cta-arrow { font-size: 22px; color: var(--z2); font-weight: 600; }
+
   footer { margin-top: 2.5rem; text-align: center; font-size: 11px; color: var(--muted); opacity: 0.6; }
   footer a { color: inherit; }
   @media (max-width: 480px) {
@@ -147,6 +168,15 @@
       <span class="badge" id="diff">&mdash;</span>
     </div>
   </div>
+
+  <a href="unlock.html" class="cta-card">
+    <div class="cta-content">
+      <div class="cta-label">For Garmin</div>
+      <div class="cta-title">Use these zones on your watch</div>
+      <div class="cta-sub">DaIntervalPro &middot; one-time $4.99</div>
+    </div>
+    <div class="cta-arrow">&rarr;</div>
+  </a>
 
   <footer>Built by <a href="https://dasecure.com">dasecure.com</a> &middot; Karvonen Formula (1957) &middot; <a href="https://github.com/dasecure/zone2">GitHub</a></footer>
 </div>
