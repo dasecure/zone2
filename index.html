@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karvonen HR Zone Calculator — Zone 2 Training</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0c0f14;
+    --surface: #141920;
+    --surface2: #1c2330;
+    --border: rgba(255,255,255,0.07);
+    --text: #f0f2f5;
+    --muted: #7a8496;
+    --z1: #3ecfa0;
+    --z2: #4da6f0;
+    --z3: #9b8ef5;
+    --z4: #f5a623;
+    --z5: #f25c5c;
+    --radius: 12px;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 680px; margin: 0 auto; }
+  header { margin-bottom: 2.5rem; }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .brand-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--z2); }
+  h1 { font-size: clamp(28px, 5vw, 42px); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
+  h1 span { color: var(--z2); }
+  .subtitle { margin-top: 0.6rem; font-size: 15px; color: var(--muted); font-weight: 400; }
+  .inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
+  .card-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .card-value { font-family: 'DM Mono', monospace; font-size: 36px; font-weight: 500; color: var(--text); line-height: 1; margin-bottom: 10px; }
+  .card-value span { font-size: 14px; color: var(--muted); margin-left: 2px; }
+  input[type=range] { -webkit-appearance: none; width: 100%; height: 4px; background: var(--surface2); border-radius: 4px; outline: none; cursor: pointer; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--text); border: 2px solid var(--bg); cursor: pointer; transition: transform 0.1s; }
+  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; }
+  .stat-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .stat-value { font-family: 'DM Mono', monospace; font-size: 26px; font-weight: 500; line-height: 1; color: var(--text); }
+  .stat-sub { font-size: 10px; color: var(--muted); margin-top: 4px; }
+  .zones-header { display: grid; grid-template-columns: 90px 1fr 120px; gap: 12px; padding: 0 0 8px; font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); margin-bottom: 10px; }
+  .zones-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.5rem; }
+  .zone-row { display: grid; grid-template-columns: 90px 1fr 120px; gap: 12px; align-items: center; }
+  .zone-name { display: flex; flex-direction: column; }
+  .zone-num { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+  .zone-tag { font-size: 10px; color: var(--muted); font-weight: 400; margin-top: 1px; }
+  .bar-track { background: rgba(255,255,255,0.05); border-radius: 6px; height: 32px; position: relative; overflow: hidden; }
+  .bar-fill { position: absolute; left: 0; top: 0; height: 100%; border-radius: 6px; display: flex; align-items: center; padding: 0 10px; transition: width 0.3s ease; }
+  .bar-pct { font-size: 10px; font-weight: 600; white-space: nowrap; opacity: 0.9; }
+  .zone-bpm { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; text-align: right; color: var(--text); }
+  .compare { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
+  .compare-title { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+  .compare-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .compare-row:last-child { border-bottom: none; }
+  .compare-row .label { color: var(--muted); }
+  .compare-row .val { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500; }
+  .badge { display: inline-block; background: rgba(77,166,240,0.15); color: var(--z2); font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; font-family: 'DM Mono', monospace; }
+  footer { margin-top: 2.5rem; text-align: center; font-size: 11px; color: var(--muted); opacity: 0.6; }
+  footer a { color: inherit; }
+  @media (max-width: 480px) {
+    .inputs { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .zones-header, .zone-row { grid-template-columns: 70px 1fr 100px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="brand"><div class="brand-dot"></div>Zone 2 Training</div>
+    <h1>Karvonen<br><span>HR Zone</span> Calculator</h1>
+    <p class="subtitle">Personalised training zones based on your heart rate reserve &mdash; not just age</p>
+  </header>
+
+  <div class="inputs">
+    <div class="card">
+      <div class="card-label">Age</div>
+      <div class="card-value" id="age-out">35 <span>yrs</span></div>
+      <input type="range" id="age" min="15" max="85" step="1" value="35">
+    </div>
+    <div class="card">
+      <div class="card-label">Resting heart rate</div>
+      <div class="card-value" id="rhr-out">65 <span>bpm</span></div>
+      <input type="range" id="rhr" min="40" max="100" step="1" value="65">
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-label">Max HR</div>
+      <div class="stat-value" id="maxhr">185</div>
+      <div class="stat-sub">220 &minus; age</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">HR Reserve</div>
+      <div class="stat-value" id="hrr">120</div>
+      <div class="stat-sub">Max &minus; Resting</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Simple 70%</div>
+      <div class="stat-value" id="simple70">130</div>
+      <div class="stat-sub">No HRR adjustment</div>
+    </div>
+  </div>
+
+  <div class="zones-header">
+    <div>Zone</div>
+    <div>Intensity range</div>
+    <div style="text-align:right">BPM range</div>
+  </div>
+
+  <div class="zones-list" id="zones"></div>
+
+  <div class="compare">
+    <div class="compare-title">Karvonen vs 220 &minus; age &mdash; Zone 3 aerobic target</div>
+    <div class="compare-row">
+      <span class="label">Karvonen 70% (personalised)</span>
+      <span class="val" id="k70">&mdash;</span>
+    </div>
+    <div class="compare-row">
+      <span class="label">Simple 220 &minus; age &times; 70%</span>
+      <span class="val" id="s70">&mdash;</span>
+    </div>
+    <div class="compare-row">
+      <span class="label">Difference</span>
+      <span class="badge" id="diff">&mdash;</span>
+    </div>
+  </div>
+
+  <footer>Built by <a href="https://dasecure.com">dasecure.com</a> &middot; Karvonen Formula (1957) &middot; <a href="https://github.com/dasecure/zone2">GitHub</a></footer>
+</div>
+
+<script>
+  const ZONES = [
+    { num: 'Zone 1', tag: 'Recovery',    lo: 0.50, hi: 0.60, color: '#3ecfa0' },
+    { num: 'Zone 2', tag: 'Fat burn',    lo: 0.60, hi: 0.70, color: '#4da6f0' },
+    { num: 'Zone 3', tag: 'Aerobic',     lo: 0.70, hi: 0.80, color: '#9b8ef5' },
+    { num: 'Zone 4', tag: 'Threshold',   lo: 0.80, hi: 0.90, color: '#f5a623' },
+    { num: 'Zone 5', tag: 'VO\u2082 max', lo: 0.90, hi: 1.00, color: '#f25c5c' },
+  ];
+
+  const list = document.getElementById('zones');
+  ZONES.forEach((z, i) => {
+    const row = document.createElement('div');
+    row.className = 'zone-row';
+    row.innerHTML = `
+      <div class="zone-name">
+        <span class="zone-num" style="color:${z.color}">${z.num}</span>
+        <span class="zone-tag">${z.tag}</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" id="fill${i}" style="background:${z.color}20">
+          <span class="bar-pct" style="color:${z.color}">${z.lo*100}\u2013${z.hi*100}%</span>
+        </div>
+      </div>
+      <div class="zone-bpm" id="bpm${i}">&mdash;</div>
+    `;
+    list.appendChild(row);
+  });
+
+  function karv(pct, maxHR, rhr) {
+    return Math.round(((maxHR - rhr) * pct) + rhr);
+  }
+
+  function update() {
+    const age = +document.getElementById('age').value;
+    const rhr = +document.getElementById('rhr').value;
+    const maxHR = 220 - age;
+    const hrr = maxHR - rhr;
+
+    document.getElementById('age-out').innerHTML = age + ' <span>yrs</span>';
+    document.getElementById('rhr-out').innerHTML = rhr + ' <span>bpm</span>';
+    document.getElementById('maxhr').textContent = maxHR;
+    document.getElementById('hrr').textContent = hrr;
+    document.getElementById('simple70').textContent = Math.round(maxHR * 0.70);
+
+    ZONES.forEach((z, i) => {
+      const lo = karv(z.lo, maxHR, rhr);
+      const hi = karv(z.hi, maxHR, rhr);
+      document.getElementById('bpm' + i).textContent = lo + '\u2013' + hi + ' bpm';
+      const w = (z.lo * 40) + ((z.hi - z.lo) * 60) + 20;
+      document.getElementById('fill' + i).style.width = Math.min(w, 100) + '%';
+    });
+
+    const k70 = karv(0.70, maxHR, rhr);
+    const s70 = Math.round(maxHR * 0.70);
+    const diff = Math.abs(k70 - s70);
+    const dir = k70 > s70 ? '\u2191 Karvonen higher' : k70 < s70 ? '\u2193 Karvonen lower' : 'identical';
+    document.getElementById('k70').textContent = k70 + ' bpm';
+    document.getElementById('s70').textContent = s70 + ' bpm';
+    document.getElementById('diff').textContent = diff + ' bpm \u2014 ' + dir;
+  }
+
+  document.getElementById('age').addEventListener('input', update);
+  document.getElementById('rhr').addEventListener('input', update);
+  update();
+</script>
+</body>
+</html>
