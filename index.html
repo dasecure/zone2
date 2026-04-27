@@ -30,26 +30,10 @@
     --z5: #f25c5c;
     --radius: 12px;
   }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Syne', sans-serif;
-    min-height: 100vh;
-    padding: 2rem 1rem;
-  }
+  body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; min-height: 100vh; padding: 2rem 1rem; }
   .container { max-width: 680px; margin: 0 auto; }
   header { margin-bottom: 2.5rem; }
-  .brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 1rem;
-  }
+  .brand { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
   .brand-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--z2); }
   h1 { font-size: clamp(28px, 5vw, 42px); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
   h1 span { color: var(--z2); }
@@ -77,19 +61,31 @@
   .bar-fill { position: absolute; left: 0; top: 0; height: 100%; border-radius: 6px; display: flex; align-items: center; padding: 0 10px; transition: width 0.3s ease; }
   .bar-pct { font-size: 10px; font-weight: 600; white-space: nowrap; opacity: 0.9; }
   .zone-bpm { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; text-align: right; color: var(--text); }
-  .compare { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
+  .compare { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.5rem; }
   .compare-title { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
   .compare-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
   .compare-row:last-child { border-bottom: none; }
   .compare-row .label { color: var(--muted); }
   .compare-row .val { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500; }
   .badge { display: inline-block; background: rgba(77,166,240,0.15); color: var(--z2); font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; font-family: 'DM Mono', monospace; }
+  /* CTA banner */
+  .cta-banner { background: linear-gradient(135deg, rgba(155,142,245,0.12) 0%, rgba(62,207,160,0.12) 100%); border: 1px solid rgba(155,142,245,0.25); border-radius: var(--radius); padding: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .cta-text { flex: 1; min-width: 200px; }
+  .cta-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .cta-sub { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .cta-apps { display: flex; gap: 8px; flex-wrap: wrap; }
+  .cta-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 8px; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; text-decoration: none; transition: opacity 0.15s, transform 0.1s; white-space: nowrap; }
+  .cta-btn:hover { opacity: 0.85; }
+  .cta-btn:active { transform: scale(0.97); }
+  .cta-btn-interval { background: rgba(155,142,245,0.2); color: #9b8ef5; border: 1px solid rgba(155,142,245,0.3); }
+  .cta-btn-fastflow { background: rgba(62,207,160,0.2); color: #3ecfa0; border: 1px solid rgba(62,207,160,0.3); }
   footer { margin-top: 2.5rem; text-align: center; font-size: 11px; color: var(--muted); opacity: 0.6; }
   footer a { color: inherit; }
   @media (max-width: 480px) {
     .inputs { grid-template-columns: 1fr; }
     .stats { grid-template-columns: 1fr 1fr; }
     .zones-header, .zone-row { grid-template-columns: 70px 1fr 100px; }
+    .cta-banner { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
@@ -115,44 +111,36 @@
   </div>
 
   <div class="stats">
-    <div class="stat">
-      <div class="stat-label">Max HR</div>
-      <div class="stat-value" id="maxhr">185</div>
-      <div class="stat-sub">220 &minus; age</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">HR Reserve</div>
-      <div class="stat-value" id="hrr">120</div>
-      <div class="stat-sub">Max &minus; Resting</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Simple 70%</div>
-      <div class="stat-value" id="simple70">130</div>
-      <div class="stat-sub">No HRR adjustment</div>
-    </div>
+    <div class="stat"><div class="stat-label">Max HR</div><div class="stat-value" id="maxhr">185</div><div class="stat-sub">220 &minus; age</div></div>
+    <div class="stat"><div class="stat-label">HR Reserve</div><div class="stat-value" id="hrr">120</div><div class="stat-sub">Max &minus; Resting</div></div>
+    <div class="stat"><div class="stat-label">Simple 70%</div><div class="stat-value" id="simple70">130</div><div class="stat-sub">No HRR adjustment</div></div>
   </div>
 
   <div class="zones-header">
-    <div>Zone</div>
-    <div>Intensity range</div>
-    <div style="text-align:right">BPM range</div>
+    <div>Zone</div><div>Intensity range</div><div style="text-align:right">BPM range</div>
   </div>
-
   <div class="zones-list" id="zones"></div>
 
   <div class="compare">
     <div class="compare-title">Karvonen vs 220 &minus; age &mdash; Zone 3 aerobic target</div>
-    <div class="compare-row">
-      <span class="label">Karvonen 70% (personalised)</span>
-      <span class="val" id="k70">&mdash;</span>
+    <div class="compare-row"><span class="label">Karvonen 70% (personalised)</span><span class="val" id="k70">&mdash;</span></div>
+    <div class="compare-row"><span class="label">Simple 220 &minus; age &times; 70%</span><span class="val" id="s70">&mdash;</span></div>
+    <div class="compare-row"><span class="label">Difference</span><span class="badge" id="diff">&mdash;</span></div>
+  </div>
+
+  <!-- CTA: Train these zones on your Garmin -->
+  <div class="cta-banner">
+    <div class="cta-text">
+      <div class="cta-title">Train these zones on your Garmin &#8987;</div>
+      <div class="cta-sub">DaIntervalPro and FastFlow bring Karvonen HR zones to your wrist &mdash; live guidance during every workout and fasting session.</div>
     </div>
-    <div class="compare-row">
-      <span class="label">Simple 220 &minus; age &times; 70%</span>
-      <span class="val" id="s70">&mdash;</span>
-    </div>
-    <div class="compare-row">
-      <span class="label">Difference</span>
-      <span class="badge" id="diff">&mdash;</span>
+    <div class="cta-apps">
+      <a href="unlock.html" class="cta-btn cta-btn-interval" onclick="gtag('event','cta_click',{app:'DaIntervalPro',source:'calculator'})">
+        &#9201; DaIntervalPro &rarr;
+      </a>
+      <a href="unlock.html" class="cta-btn cta-btn-fastflow" onclick="gtag('event','cta_click',{app:'FastFlow',source:'calculator'})">
+        &#9889; FastFlow &rarr;
+      </a>
     </div>
   </div>
 
@@ -167,42 +155,24 @@
     { num: 'Zone 4', tag: 'Threshold',   lo: 0.80, hi: 0.90, color: '#f5a623' },
     { num: 'Zone 5', tag: 'VO\u2082 max', lo: 0.90, hi: 1.00, color: '#f25c5c' },
   ];
-
   const list = document.getElementById('zones');
   ZONES.forEach((z, i) => {
     const row = document.createElement('div');
     row.className = 'zone-row';
-    row.innerHTML = `
-      <div class="zone-name">
-        <span class="zone-num" style="color:${z.color}">${z.num}</span>
-        <span class="zone-tag">${z.tag}</span>
-      </div>
-      <div class="bar-track">
-        <div class="bar-fill" id="fill${i}" style="background:${z.color}20">
-          <span class="bar-pct" style="color:${z.color}">${z.lo*100}\u2013${z.hi*100}%</span>
-        </div>
-      </div>
-      <div class="zone-bpm" id="bpm${i}">&mdash;</div>
-    `;
+    row.innerHTML = `<div class="zone-name"><span class="zone-num" style="color:${z.color}">${z.num}</span><span class="zone-tag">${z.tag}</span></div><div class="bar-track"><div class="bar-fill" id="fill${i}" style="background:${z.color}20"><span class="bar-pct" style="color:${z.color}">${z.lo*100}\u2013${z.hi*100}%</span></div></div><div class="zone-bpm" id="bpm${i}">&mdash;</div>`;
     list.appendChild(row);
   });
-
-  function karv(pct, maxHR, rhr) {
-    return Math.round(((maxHR - rhr) * pct) + rhr);
-  }
-
+  function karv(pct, maxHR, rhr) { return Math.round(((maxHR - rhr) * pct) + rhr); }
   function update() {
     const age = +document.getElementById('age').value;
     const rhr = +document.getElementById('rhr').value;
     const maxHR = 220 - age;
     const hrr = maxHR - rhr;
-
     document.getElementById('age-out').innerHTML = age + ' <span>yrs</span>';
     document.getElementById('rhr-out').innerHTML = rhr + ' <span>bpm</span>';
     document.getElementById('maxhr').textContent = maxHR;
     document.getElementById('hrr').textContent = hrr;
     document.getElementById('simple70').textContent = Math.round(maxHR * 0.70);
-
     ZONES.forEach((z, i) => {
       const lo = karv(z.lo, maxHR, rhr);
       const hi = karv(z.hi, maxHR, rhr);
@@ -210,7 +180,6 @@
       const w = (z.lo * 40) + ((z.hi - z.lo) * 60) + 20;
       document.getElementById('fill' + i).style.width = Math.min(w, 100) + '%';
     });
-
     const k70 = karv(0.70, maxHR, rhr);
     const s70 = Math.round(maxHR * 0.70);
     const diff = Math.abs(k70 - s70);
@@ -218,15 +187,8 @@
     document.getElementById('k70').textContent = k70 + ' bpm';
     document.getElementById('s70').textContent = s70 + ' bpm';
     document.getElementById('diff').textContent = diff + ' bpm \u2014 ' + dir;
-
-    // GA: track zone calculation engagement
-    if (typeof gtag !== 'undefined') {
-      gtag('event', 'calculate_zones', { age: age, resting_hr: rhr });
-    }
+    if (typeof gtag !== 'undefined') { gtag('event', 'calculate_zones', { age: age, resting_hr: rhr }); }
   }
-
-  document.getElementById('age').addEventListener('change', update);
-  document.getElementById('rhr').addEventListener('change', update);
   document.getElementById('age').addEventListener('input', update);
   document.getElementById('rhr').addEventListener('input', update);
   update();

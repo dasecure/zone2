@@ -28,12 +28,23 @@
 }
 body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; min-height: 100vh; padding: 2rem 1rem 4rem; }
 .container { max-width: 720px; margin: 0 auto; }
-header { text-align: center; margin-bottom: 3rem; }
+header { text-align: center; margin-bottom: 2rem; }
 .brand { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
 .brand-dots { display: flex; gap: 4px; }
 .dot { width: 6px; height: 6px; border-radius: 50%; }
 h1 { font-size: clamp(26px, 4vw, 38px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
 .tagline { font-size: 15px; color: var(--muted); }
+/* ConnectIQ notice */
+.connectiq-notice { background: linear-gradient(135deg, rgba(62,207,160,0.08) 0%, rgba(77,166,240,0.08) 100%); border: 1px solid rgba(62,207,160,0.25); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 2rem; display: flex; align-items: flex-start; gap: 12px; }
+.connectiq-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+.connectiq-body { flex: 1; }
+.connectiq-title { font-size: 13px; font-weight: 700; color: #3ecfa0; margin-bottom: 4px; letter-spacing: 0.02em; }
+.connectiq-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.connectiq-text a { color: var(--text); text-decoration: underline; text-underline-offset: 2px; }
+/* Calculator link */
+.calculator-link { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.9rem 1.25rem; margin-bottom: 2rem; font-size: 13px; color: var(--muted); text-decoration: none; transition: border-color 0.15s, color 0.15s; }
+.calculator-link:hover { border-color: rgba(77,166,240,0.4); color: #4da6f0; }
+.calculator-link span { font-weight: 600; color: #4da6f0; }
 .apps { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 3rem; }
 .app-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .app-card-header { padding: 1.5rem 1.5rem 1rem; border-bottom: 1px solid var(--border); }
@@ -97,6 +108,22 @@ footer a { color: inherit; }
     <p class="tagline">One-time payment &mdash; lifetime unlock, no subscription</p>
   </header>
 
+  <!-- ConnectIQ Notice -->
+  <div class="connectiq-notice">
+    <div class="connectiq-icon">&#8987;</div>
+    <div class="connectiq-body">
+      <div class="connectiq-title">Available on Garmin Connect IQ App Store</div>
+      <div class="connectiq-text">
+        Both <strong>DaIntervalPro</strong> and <strong>FastFlow</strong> are free to download from the <a href="https://apps.garmin.com" target="_blank" rel="noopener">Garmin Connect IQ App Store</a>. Install the app on your Garmin watch first, then purchase a Pro unlock code below to activate all premium features.
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to calculator -->
+  <a href="index.html" class="calculator-link" onclick="gtag('event','nav_click',{destination:'calculator'})">
+    &#8592; &nbsp;<span>Karvonen HR Zone Calculator</span> &mdash; find your personalised Zone 2 range
+  </a>
+
   <div class="apps">
     <div class="app-card">
       <div class="app-card-header">
@@ -113,7 +140,6 @@ footer a { color: inherit; }
         <p class="paypal-note">Your unlock code is emailed within minutes of payment</p>
       </div>
     </div>
-
     <div class="app-card">
       <div class="app-card-header">
         <div class="app-badge badge-fastflow">Fasting Tracker</div>
@@ -164,6 +190,7 @@ footer a { color: inherit; }
 
   <div class="faq">
     <div class="faq-title">Common questions</div>
+    <div class="faq-item"><div class="faq-q">Where do I download the apps?</div><div class="faq-a">Both apps are free on the <a href="https://apps.garmin.com" target="_blank" rel="noopener">Garmin Connect IQ App Store</a>. Search for &ldquo;DaIntervalPro&rdquo; or &ldquo;FastFlow&rdquo; in the Connect IQ app on your phone or at apps.garmin.com.</div></div>
     <div class="faq-item"><div class="faq-q">How long until I receive my code?</div><div class="faq-a">Codes are emailed to your PayPal address within minutes of payment confirmation &mdash; fully automated.</div></div>
     <div class="faq-item"><div class="faq-q">Can I use the code on multiple watches?</div><div class="faq-a">Each code is single-use and locks to the first device that redeems it. Contact <a href="mailto:sales@ooi.cc">sales@ooi.cc</a> if you upgrade your watch.</div></div>
     <div class="faq-item"><div class="faq-q">I entered the code correctly but got &ldquo;Invalid code&rdquo;</div><div class="faq-a">Double-check each digit carefully. If it persists, email <a href="mailto:sales@ooi.cc">sales@ooi.cc</a> with your PayPal receipt.</div></div>
